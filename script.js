@@ -58,8 +58,8 @@ function updateSavedColumns() {
 
 // Filter Arrays to remove empty items
 function filterArray(array) {
-  const filteredArray = array.filter(item => item !== null);
-  return filteredArray
+  const filteredArray = array.filter((item) => item !== null);
+  return filteredArray;
 }
 
 // Create DOM Elements for each list item
@@ -71,8 +71,8 @@ function createItemEl(columnEl, column, item, index) {
   listEl.draggable = true;
   listEl.setAttribute("ondragstart", "drag(event)");
   listEl.contentEditable = true;
-  listEl.id = index; 
-  listEl.setAttribute('onfocusout', `updateItem(${index}, ${column})`);
+  listEl.id = index;
+  listEl.setAttribute("onfocusout", `updateItem(${index}, ${column})`);
   // Append
   columnEl.appendChild(listEl);
 }
@@ -114,11 +114,11 @@ function updateDOM() {
 
 // Update Item - Delete if necessary, or update Array value
 function updateItem(id, column) {
-  const selectedArray = listArrays[column]; 
-  const selectedColumnEl = listColumns[column].children; 
+  const selectedArray = listArrays[column];
+  const selectedColumnEl = listColumns[column].children;
   if (!dragging) {
     if (!selectedColumnEl[id].textContent) {
-      delete selectedArray[id]; 
+      delete selectedArray[id];
     } else {
       selectedArray[id] = selectedColumnEl[id].textContent;
     }
@@ -126,48 +126,36 @@ function updateItem(id, column) {
   }
 }
 
-// Add to Column List, Reset Text box 
+// Add to Column List, Reset Text box
 function addToColumn(column) {
-  const itemText = addItems[column].textContent; 
-  const selectedArray = listArrays[column]; 
-  selectedArray.push(itemText); 
-  addItems[column].textContent = '';
+  const itemText = addItems[column].textContent;
+  const selectedArray = listArrays[column];
+  selectedArray.push(itemText);
+  addItems[column].textContent = "";
   updateDOM();
 }
 
-// Show Add Item Input Box 
+// Show Add Item Input Box
 function showInputBox(column) {
-  addBtns[column].style.visibility = 'hidden'; 
-  saveItemBtns[column].style.display = 'flex'; 
-  addItemContainers[column].style.display = 'flex'; 
+  addBtns[column].style.visibility = "hidden";
+  saveItemBtns[column].style.display = "flex";
+  addItemContainers[column].style.display = "flex";
 }
 
 // Hide Item Input Box
 function hideInputBox(column) {
-  addBtns[column].style.visibility = 'visible'; 
-  saveItemBtns[column].style.display = 'none'; 
-  addItemContainers[column].style.display = 'none'; 
-  addToColumn(column); 
+  addBtns[column].style.visibility = "visible";
+  saveItemBtns[column].style.display = "none";
+  addItemContainers[column].style.display = "none";
+  addToColumn(column);
 }
 
 // Allows arrays to reflect Drag and Drop items
 function rebuildArrays() {
-  backlogListArray = [];
-  for (let i = 0; i < backlogList.children.length; i++) {
-    backlogListArray.push(backlogList.children[i].textContent);
-  }
-  progressListArray = [];
-  for (let i = 0; i < progressList.children.length; i++) {
-    progressListArray.push(progressList.children[i].textContent);
-  }
-  completeListArray = [];
-  for (let i = 0; i < completeList.children.length; i++) {
-    completeListArray.push(completeList.children[i].textContent);
-  }
-  onHoldListArray = [];
-  for (let i = 0; i < onHoldList.children.length; i++) {
-    onHoldListArray.push(onHoldList.children[i].textContent);
-  }
+  backlogListArray = Array.from(backlogList.children).map(item => item.textContent);
+  progressListArray = Array.from(progressList.children).map(item => item.textContent);
+  completeListArray = Array.from(completeList.children).map(item => item.textContent);
+  onHoldListArray = Array.from(onHoldList.children).map(item => item.textContent);
   updateDOM();
 }
 
